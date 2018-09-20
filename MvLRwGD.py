@@ -1,15 +1,17 @@
 # Multivariate Linear Regression With Gradient Descent
-import csv
-def ft_scaling(matrix):
+import csv # Enables manipulation of CSV files
+def ft_scaling(matrix): # Currently Empty, will be editted in the future
     #Normalizing Algorithm
     return matrix
-def mvlrgd_train(matrix,m,n,a):
+def mvlrgd_train(matrix,m,n,a): # This function trains the algorithm
+    # m = number of samples, n = number of features a = learning rate
+    # matrix is an mxn matrix with the first column containing the sample outputs
     i = 0 #Iteration Counter Holder for all training examples m
     j = 0 #Iteration Counter Holder for all features n
-    temp = 0.0
-    hyp = 0.0
-    X = matrix
-    c = 100000
+    temp = 0.0 # A temporary holder for summing up the hypothesis
+    hyp = 0.0 # The hypothesis function
+    X = matrix # assign all values of matrix to X, later X[m][0] will be fed 1.00
+    c = 100000 # Number of iterations of gradient descent, Convergence is not checked here
     # Initializing T:
     for j in range(n):
         if j == 0:
@@ -42,25 +44,25 @@ def mvlrgd_train(matrix,m,n,a):
     for i in range(int(m)):
         X[i][0]=1.00
     i = 0
-    # Counting c iterations
+    # Now Running The Algorithm c times:
     while c >= 0:
-        while i < m:
-            while j < n:
+        while i < m: # iteratively selecting new examples (rows)
+            while j < n: # summing up temp variable for each input in the example
                 temp = temp+T_old[j]*X[i][j]
                 j += 1
-            hyp = temp
+            hyp = temp # updating the hypothesis value using temp
             temp = 0
             j = 0
             while j < n:
-                sum_T[j] = sum_T[j]+(hyp-Y[i])*X[i][j]
+                sum_T[j] = sum_T[j]+(hyp-Y[i])*X[i][j] # The sum of the unscaled Cost Function
                 j += 1
             j = 0
             while j < n:
-                T[j] = T_old[j] - (a/m)*sum_T[j]
+                T[j] = T_old[j] - (a/m)*sum_T[j] # Updating the Parameters
                 j += 1
             j = 0
             while j < n:
-                T_old[j] = T[j]
+                T_old[j] = T[j] # Retiring the Parameters
                 j += 1
             j = 0
             i += 1
@@ -79,7 +81,7 @@ a = 0.0001
 j = 0
 choice = 1
 ####
-with open('E:\Python Files\MvLRwGD\dataset_stline_slope_pt5.csv') as csv_file:   #csv file reading
+with open("""Enter .CSV File Here""") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
@@ -90,9 +92,6 @@ with open('E:\Python Files\MvLRwGD\dataset_stline_slope_pt5.csv') as csv_file:  
         else:
             matrix.append(list(map(float, row)))
             line_count += 1
-    #x = list(map(float, x))     #convert string to float type
-    #y = list(map(float, y))     #convert string to float type
-    #print(matrix)
     m = float(line_count)
     print(f'Total {line_count} Examples and {n-1} feature(s)')
 ####
